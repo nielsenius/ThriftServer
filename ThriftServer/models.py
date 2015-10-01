@@ -10,16 +10,16 @@ class User(models.Model):
     phone = models.CharField()
     email = models.CharField()
     password = models.CharField()
-    image = ImageField(upload_to=get_image_path, blank=True, null=True)
+    image = models.ImageField(upload_to=get_image_path, blank=True, null=True)
 
 class Item(models.Model):
     user_id = models.ForeignKey(User)
     name = models.CharField()
     description = models.TextField()
     status = models.CharField()
-    image1 = ImageField(upload_to=get_image_path, blank=True, null=True)
-    image2 = ImageField(upload_to=get_image_path, blank=True, null=True)
-    image3 = ImageField(upload_to=get_image_path, blank=True, null=True)
+    image1 = models.ImageField(upload_to=get_image_path, blank=True, null=True)
+    image2 = models.ImageField(upload_to=get_image_path, blank=True, null=True)
+    image3 = models.ImageField(upload_to=get_image_path, blank=True, null=True)
     
 class Hashtag(models.Model):
     hashtag = models.CharField()
