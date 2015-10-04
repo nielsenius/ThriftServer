@@ -14,6 +14,7 @@ class User(models.Model):
 
 class Item(models.Model):
     user_id = models.ForeignKey(User)
+    req_id = models.ForeignKey(User)
     name = models.CharField()
     description = models.TextField()
     status = models.CharField()
