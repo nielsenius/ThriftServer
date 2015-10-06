@@ -12,9 +12,6 @@ def create_user(request):
     u.save()
     return HttpResponse('success')
 
-def edit_user(request):
-    return HttpResponse('failure')
-
 def create_item(request):
     i = Item(
         user_id=request.POST['user_id'],
@@ -24,9 +21,6 @@ def create_item(request):
     )
     i.save()
     return HttpResponse('success')
-
-def edit_item(request):
-    return HttpResponse('failure')
 
 def request_item(request):    
     try:
