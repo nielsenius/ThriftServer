@@ -1,26 +1,45 @@
 from django.http import HttpResponse, JsonResponse
+from django.core import serializers
 from django.apps import AppConfig
 
 def create_user(request):
-    u = User(
-        first_name=request.POST['first_name'],
-        last_name=request.POST['last_name'],
-        phone=request.POST['phone'],
-        email=request.POST['email'],
-        password=request.POST['password'],
-    )
-    u.save()
-    return HttpResponse('success')
+    try:
+        u = User(
+            first_name=request.POST['first_name'],
+            last_name=request.POST['last_name'],
+            phone=request.POST['phone'],
+            email=request.POST['email'],
+            password=request.POST['password'],
+        )
+        u.save()
+        return JsonResponse({'success': 'true'})
+    except:
+        return JsonResponse({'success': 'false'})
+
+def get_user(request):
+    pass
 
 def create_item(request):
-    i = Item(
-        user_id=request.POST['user_id'],
-        name=request.POST['name'],
-        description=request.POST['description'],
-        status='Available'
-    )
-    i.save()
-    return HttpResponse('success')
+    try:
+        i = Item(
+            user_id=request.POST['user_id'],
+            name=request.POST['name'],
+            description=request.POST['description'],
+            status='Available'
+        )
+        i.save()
+        
+        create_hashtags(request.POST['hashtags'])
+        
+        return JsonResponse({'success': 'true'})
+    except:
+        return JsonResponse({'success': 'false'})
+
+def get_item(request):
+    pass
+
+def get_items(request):
+    pass
 
 def request_item(request):    
     try:
@@ -31,11 +50,11 @@ def request_item(request):
             i.req_id = u.id
             i.status = 'Requested'
             i.save()
-            return HttpResponse('success')
+            return JsonResponse({'success': 'true'})
         else:
-            return HttpResponse('failure')
+            return JsonResponse({'success': 'false'})
     except Item.DoesNotExist:
-        return HttpResponse('failure')
+        return JsonResponse({'success': 'false'})
 
 def give_item(request):
     try:
@@ -44,28 +63,17 @@ def give_item(request):
         if i.status == 'Requested':
             i.status = 'Given'
             i.save()
-            return HttpResponse('success')
+            return JsonResponse({'success': 'true'})
         else:
-            return HttpResponse('failure')
+            return JsonResponse({'success': 'false'})
     except Item.DoesNotExist:
-        return HttpResponse('failure')
-
-def create_hashtag(request):
-    i_id = request.POST['item_id']
-    
-    try:
-        h = Hashtag.objects.get(hashtag=request.POST['hashtag'])
-    except Hashtag.DoesNotExist:
-        h = Hashtag(hashtag=request.POST['hashtag'])
-        h.save()
-    
-    hi = HashtagItem(hashtag_id=h.id, item_id=i_id)
-    hi.save()
-    HttpResponse('success')
-        
+        return JsonResponse({'success': 'false'})
 
 def login(request):
     if User.objects.filter(email=request.POST['email'], password=request.POST['password']).exists():
-        return HttpResponse('success')
+        return JsonResponse({'success': 'true'})
     else:
-        return HttpResponse('failure')
+       return JsonResponse({'success': 'false'})
+
+def search(request):
+    pass
