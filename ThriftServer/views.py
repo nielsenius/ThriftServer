@@ -12,12 +12,21 @@ def create_user(request):
             password=request.POST['password'],
         )
         u.save()
-        return JsonResponse({'success': 'true'})
+        return JsonResponse({'success': 'true', 'user_id': u.id})
     except:
         return JsonResponse({'success': 'false'})
 
 def get_user(request):
-    pass
+    try:
+        u = User.objects.get(id=request.POST['user_id'])
+        return JsonResponse({'success': 'true',
+                             'first_name': u.first_name,
+                             'last_name': u.last_name,
+                             'phone': u.phone,
+                             'email': u.email
+                             })
+    except:
+        return JsonResponse({'success': 'false'})
 
 def create_item(request):
     try:
@@ -36,10 +45,24 @@ def create_item(request):
         return JsonResponse({'success': 'false'})
 
 def get_item(request):
-    pass
+    try:
+        i = Item.objects.get(id=request.POST['item_id'])
+        return JsonResponse({'success': 'true',
+                             'user_id': i.user_id,
+                             'name': i.name,
+                             'description': i.description,
+                             'status': i.status
+                             })
+    except:
+        return JsonResponse({'success': 'false'})
 
 def get_items(request):
-    pass
+    try:
+        i = Items.objects.all()[:10]
+        return JsonResponse(serializers.serialize('json', i))
+    except:
+        return JsonResponse({'success': 'false'})
+    
 
 def request_item(request):    
     try:
@@ -70,10 +93,17 @@ def give_item(request):
         return JsonResponse({'success': 'false'})
 
 def login(request):
-    if User.objects.filter(email=request.POST['email'], password=request.POST['password']).exists():
-        return JsonResponse({'success': 'true'})
-    else:
-       return JsonResponse({'success': 'false'})
+    try:
+        u = User.objects.get(email=request.POST['email'], password=request.POST['password'])
+        return JsonResponse({'success': 'true', 'user_id': u.id})
+    except User.DoesNotExist:
+        return JsonResponse({'success': 'false'})
 
 def search(request):
-    pass
+    try:
+        hashtag = Hashtag.objects.get(hashtag=request.POST['keyword'])
+        i = Item.objects.filter(hashtagitem__hashtag_id=hashtag.id)
+        
+        return JsonResponse(serializers.serialize('json', i))
+    except User.DoesNotExist:
+        return JsonResponse({'success': 'false'})
