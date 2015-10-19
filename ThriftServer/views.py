@@ -46,7 +46,6 @@ def create_item(request):
     except:
         return JsonResponse({'success': 'false'})
 
-@csrf_exempt
 def get_item(request):
     try:
         i = Item.objects.get(id=request.POST['item_id'])
@@ -59,6 +58,7 @@ def get_item(request):
     except:
         return JsonResponse({'success': 'false'})
 
+@csrf_exempt
 def get_items(request):
     try:
         i = Items.objects.all()[:10]
