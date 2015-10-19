@@ -1,6 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 from django.apps import AppConfig
+from models import *
 
 def create_user(request):
     try:
@@ -9,7 +10,7 @@ def create_user(request):
             last_name=request.POST['last_name'],
             phone=request.POST['phone'],
             email=request.POST['email'],
-            password=request.POST['password'],
+            password=request.POST['password']
         )
         u.save()
         return JsonResponse({'success': 'true', 'user_id': u.id})
@@ -38,7 +39,7 @@ def create_item(request):
         )
         i.save()
         
-        create_hashtags(request.POST['hashtags'])
+        create_hashtags(request.POST['hashtags'], i.id)
         
         return JsonResponse({'success': 'true'})
     except:
@@ -105,5 +106,100 @@ def search(request):
         i = Item.objects.filter(hashtagitem__hashtag_id=hashtag.id)
         
         return JsonResponse(serializers.serialize('json', i))
+    except User.DoesNotExist:
+        return JsonResponse({'success': 'false'})
+
+def populate(request):
+    try:
+        # create users
+        u1 = User(
+            first_name='Matt',
+            last_name='Nielsen',
+            phone='1234567890',
+            email='matt@example.com',
+            password='secret'
+        )
+        u1.save()
+        
+        u2 = User(
+            first_name='Roei',
+            last_name='Curi-Hoory',
+            phone='0987654321',
+            email='roei@example.com',
+            password='secret'
+        )
+        u2.save()
+        
+        u3 = User(
+            first_name='Kang Jun',
+            last_name='Park',
+            phone='5432167890',
+            email='kang@example.com',
+            password='secret'
+        )
+        u3.save()
+        
+        # create items and hashtags
+        i1 = Item(
+            user_id=u1,
+            name='Blue T-shirt',
+            description='I am trying to give away this blue t-shirt.',
+            status='Available'
+        )
+        i1.save()
+        
+        create_hashtags('blue t-shirt fancy', 1)
+        
+        i2 = Item(
+            user_id=u2,
+            name='Red Sweater',
+            description='I am trying to give away this red sweater.',
+            status='Available'
+        )
+        i2.save()
+        
+        create_hashtags('red sweater casual', 2)
+        
+        i3 = Item(
+            user_id=u3,
+            name='White Plates',
+            description='I am trying to give away these white plates.',
+            status='Available'
+        )
+        i3.save()
+        
+        create_hashtags('white plates old', 3)
+        
+        i4 = Item(
+            user_id=u1,
+            name='Soft Blanket',
+            description='I am trying to give away this wonderful blanket.',
+            status='Available'
+        )
+        i4.save()
+        
+        create_hashtags('soft blanket old', 1)
+        
+        i5 = Item(
+            user_id=u2,
+            name='Silverwear',
+            description='I am trying to give away my old silverwear.',
+            status='Available'
+        )
+        i5.save()
+        
+        create_hashtags('silverwear kitchen old', 2)
+        
+        i6 = Item(
+            user_id=u3,
+            name='Blue Jeans',
+            description='I am trying to give away these blue jeans.',
+            status='Available'
+        )
+        i6.save()
+        
+        create_hashtags('blue jeans casual', 3)
+        
+        return JsonResponse({'success': 'true'})
     except User.DoesNotExist:
         return JsonResponse({'success': 'false'})

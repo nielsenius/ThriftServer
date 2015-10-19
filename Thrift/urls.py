@@ -12,5 +12,7 @@ urlpatterns = patterns('',
         
     url(r'^login/', 'ThriftServer.views.login'),
     
-    url(r'^search/', 'ThriftServer.views.search')
+    url(r'^search/', 'ThriftServer.views.search'),
+    
+    url(r'^populate/', 'ThriftServer.views.populate')
 )
