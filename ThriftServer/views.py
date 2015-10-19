@@ -61,7 +61,7 @@ def get_item(request):
 @csrf_exempt
 def get_items(request):
     try:
-        i = Items.objects.all()[:10]
+        i = Item.objects.all()[:10]
         return JsonResponse(serializers.serialize('json', i))
     except:
         return JsonResponse({'success': 'false'})
