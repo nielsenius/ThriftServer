@@ -4,6 +4,7 @@ from django.core import serializers
 from django.apps import AppConfig
 from models import *
 
+@csrf_exempt
 def create_user(request):
     try:
         u = User(
@@ -18,6 +19,7 @@ def create_user(request):
     except:
         return JsonResponse({'success': 'false'})
 
+@csrf_exempt
 def get_user(request):
     try:
         u = User.objects.get(id=request.POST['user_id'])
@@ -30,6 +32,7 @@ def get_user(request):
     except:
         return JsonResponse({'success': 'false'})
 
+@csrf_exempt
 def create_item(request):
     try:
         i = Item(
@@ -46,6 +49,7 @@ def create_item(request):
     except:
         return JsonResponse({'success': 'false'})
 
+@csrf_exempt
 def get_item(request):
     try:
         i = Item.objects.get(id=request.POST['item_id'])
@@ -62,11 +66,11 @@ def get_item(request):
 def get_items(request):
     try:
         i = Item.objects.all()[:10]
-        return JsonResponse(serializers.serialize('json', i))
+        return JsonResponse(serializers.serialize('json', i), safe=False)
     except:
         return JsonResponse({'success': 'false'})
     
-
+@csrf_exempt
 def request_item(request):    
     try:
         i = Item.objects.get(id=request.POST['item_id'])
@@ -82,6 +86,7 @@ def request_item(request):
     except Item.DoesNotExist:
         return JsonResponse({'success': 'false'})
 
+@csrf_exempt
 def give_item(request):
     try:
         i = Item.objects.get(id=request.POST['item_id'])
@@ -95,6 +100,7 @@ def give_item(request):
     except Item.DoesNotExist:
         return JsonResponse({'success': 'false'})
 
+@csrf_exempt
 def login(request):
     try:
         u = User.objects.get(email=request.POST['email'], password=request.POST['password'])
@@ -102,6 +108,7 @@ def login(request):
     except User.DoesNotExist:
         return JsonResponse({'success': 'false'})
 
+@csrf_exempt
 def search(request):
     try:
         hashtag = Hashtag.objects.get(hashtag=request.POST['keyword'])
