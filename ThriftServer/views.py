@@ -114,7 +114,7 @@ def search(request):
         hashtag = Hashtag.objects.get(hashtag=request.POST['keyword'])
         i = Item.objects.filter(hashtagitem__hashtag_id=hashtag.id)
         
-        return JsonResponse(serializers.serialize('json', i))
+        return JsonResponse(serialize(i))
     except User.DoesNotExist:
         return JsonResponse({'success': 'false'})
 
