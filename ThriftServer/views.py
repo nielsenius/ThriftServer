@@ -36,14 +36,14 @@ def get_user(request):
 def create_item(request):
     try:
         i = Item(
-            user_id=request.POST['user_id'],
+            user_id=User.objects.get(id=request.POST['user_id']),
             name=request.POST['name'],
             description=request.POST['description'],
             status='Available'
         )
         i.save()
         
-        create_hashtags(request.POST['hashtags'], i.id)
+        create_hashtags(request.POST['hashtags'], i)
         
         return JsonResponse({'success': 'true'})
     except:
@@ -54,7 +54,7 @@ def get_item(request):
     try:
         i = Item.objects.get(id=request.POST['item_id'])
         return JsonResponse({'success': 'true',
-                             'user_id': i.user_id,
+                             'user_id': i.user_id.id,
                              'name': i.name,
                              'description': i.description,
                              'status': i.status
@@ -66,7 +66,7 @@ def get_item(request):
 def get_items(request):
     try:
         i = Item.objects.all()[:10]
-        return JsonResponse(serializers.serialize('json', i), safe=False)
+        return JsonResponse(serialize(i), safe=False)
     except:
         return JsonResponse({'success': 'false'})
     

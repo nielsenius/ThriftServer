@@ -1,10 +1,12 @@
 from django.db import models
 import os
+from django.core import serializers
+import json
 
 def get_image_path(instance, filename):
     return os.path.join('photos', str(instance.id), filename)
 
-def create_hashtags(hashtags, item_id):    
+def create_hashtags(hashtags, item):    
     for ht in hashtags.split(' '):
         try:
             h = Hashtag.objects.get(hashtag=ht)
@@ -12,8 +14,17 @@ def create_hashtags(hashtags, item_id):
             h = Hashtag(hashtag=ht)
             h.save()
         
-        hi = HashtagItem(hashtag_id=h, item_id=Item.objects.get(id=item_id))
+        hi = HashtagItem(hashtag_id=h, item_id=item)
         hi.save()
+
+def serialize(objects):
+    a = []
+    for o in objects:
+        obj_serial = serializers.serialize('json', [o])
+        obj_dict = json.loads(obj_serial)[0]['fields']
+        a.append(obj_dict)
+    return a
+        
 
 class User(models.Model):
     first_name = models.CharField(max_length=255)
