@@ -27,7 +27,8 @@ def get_user(request):
                              'first_name': u.first_name,
                              'last_name': u.last_name,
                              'phone': u.phone,
-                             'email': u.email
+                             'email': u.email,
+                             'image': u.image
                              })
     except:
         return JsonResponse({'success': 'false'})
@@ -57,7 +58,8 @@ def get_item(request):
                              'user_id': i.user_id.id,
                              'name': i.name,
                              'description': i.description,
-                             'status': i.status
+                             'status': i.status,
+                             'image': i.image
                              })
     except:
         return JsonResponse({'success': 'false'})
@@ -126,7 +128,8 @@ def populate(request):
             last_name='Nielsen',
             phone='1234567890',
             email='matt@example.com',
-            password='secret'
+            password='secret',
+            image='matt'
         )
         u1.save()
         
@@ -135,7 +138,8 @@ def populate(request):
             last_name='Curi-Hoory',
             phone='0987654321',
             email='roei@example.com',
-            password='secret'
+            password='secret',
+            image='roei'
         )
         u2.save()
         
@@ -144,7 +148,8 @@ def populate(request):
             last_name='Park',
             phone='5432167890',
             email='kang@example.com',
-            password='secret'
+            password='secret',
+            image='kang'
         )
         u3.save()
         
@@ -153,7 +158,8 @@ def populate(request):
             user_id=u1,
             name='Blue T-shirt',
             description='I am trying to give away this blue t-shirt.',
-            status='Available'
+            status='Available',
+            image='item1'
         )
         i1.save()
         
@@ -163,7 +169,8 @@ def populate(request):
             user_id=u2,
             name='Red Sweater',
             description='I am trying to give away this red sweater.',
-            status='Available'
+            status='Available',
+            image='item2'
         )
         i2.save()
         
@@ -173,7 +180,8 @@ def populate(request):
             user_id=u3,
             name='White Plates',
             description='I am trying to give away these white plates.',
-            status='Available'
+            status='Available',
+            image='item3'
         )
         i3.save()
         
@@ -183,7 +191,8 @@ def populate(request):
             user_id=u1,
             name='Soft Blanket',
             description='I am trying to give away this wonderful blanket.',
-            status='Available'
+            status='Available',
+            image='item4'
         )
         i4.save()
         
@@ -193,7 +202,8 @@ def populate(request):
             user_id=u2,
             name='Silverwear',
             description='I am trying to give away my old silverwear.',
-            status='Available'
+            status='Available',
+            image='item5'
         )
         i5.save()
         
@@ -203,7 +213,8 @@ def populate(request):
             user_id=u3,
             name='Blue Jeans',
             description='I am trying to give away these blue jeans.',
-            status='Available'
+            status='Available',
+            image='item6'
         )
         i6.save()
         

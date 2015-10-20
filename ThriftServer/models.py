@@ -1,10 +1,8 @@
 from django.db import models
-import os
 from django.core import serializers
 import json
 
-def get_image_path(instance, filename):
-    return os.path.join('photos', str(instance.id), filename)
+# helper functions
 
 def create_hashtags(hashtags, item):    
     for ht in hashtags.split(' '):
@@ -22,9 +20,11 @@ def serialize(objects):
     for o in objects:
         obj_serial = serializers.serialize('json', [o])
         obj_dict = json.loads(obj_serial)[0]['fields']
+        obj_dict['item_id'] = o.id
         a.append(obj_dict)
     return a
-        
+
+# database definition
 
 class User(models.Model):
     first_name = models.CharField(max_length=255)
@@ -32,7 +32,7 @@ class User(models.Model):
     phone = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
-    image = models.ImageField(upload_to=get_image_path, blank=True, null=True)
+    image = models.CharField(max_length=255)
 
 class Item(models.Model):
     user_id = models.ForeignKey(User, related_name='user')
@@ -40,9 +40,7 @@ class Item(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     status = models.CharField(max_length=255)
-    image1 = models.ImageField(upload_to=get_image_path, blank=True, null=True)
-    image2 = models.ImageField(upload_to=get_image_path, blank=True, null=True)
-    image3 = models.ImageField(upload_to=get_image_path, blank=True, null=True)
+    image = models.CharField(max_length=255)
     
 class Hashtag(models.Model):
     hashtag = models.CharField(max_length=255)
