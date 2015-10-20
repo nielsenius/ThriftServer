@@ -163,7 +163,7 @@ def populate(request):
         )
         i1.save()
         
-        create_hashtags('blue t-shirt fancy', 1)
+        create_hashtags('blue t-shirt fancy', i1)
         
         i2 = Item(
             user_id=u2,
@@ -174,7 +174,7 @@ def populate(request):
         )
         i2.save()
         
-        create_hashtags('red sweater casual', 2)
+        create_hashtags('red sweater casual', i2)
         
         i3 = Item(
             user_id=u3,
@@ -185,7 +185,7 @@ def populate(request):
         )
         i3.save()
         
-        create_hashtags('white plates old', 3)
+        create_hashtags('white plates old', i3)
         
         i4 = Item(
             user_id=u1,
@@ -196,7 +196,7 @@ def populate(request):
         )
         i4.save()
         
-        create_hashtags('soft blanket old', 1)
+        create_hashtags('soft blanket old', i4)
         
         i5 = Item(
             user_id=u2,
@@ -207,7 +207,7 @@ def populate(request):
         )
         i5.save()
         
-        create_hashtags('silverwear kitchen old', 2)
+        create_hashtags('silverwear kitchen old', i5)
         
         i6 = Item(
             user_id=u3,
@@ -218,7 +218,7 @@ def populate(request):
         )
         i6.save()
         
-        create_hashtags('blue jeans casual', 3)
+        create_hashtags('blue jeans casual', i5)
         
         return JsonResponse({'success': 'true'})
     except User.DoesNotExist:

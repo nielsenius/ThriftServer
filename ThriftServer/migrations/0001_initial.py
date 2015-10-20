@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import ThriftServer.models
 
 
 class Migration(migrations.Migration):
@@ -32,9 +31,7 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=255)),
                 ('description', models.TextField()),
                 ('status', models.CharField(max_length=255)),
-                ('image1', models.ImageField(null=True, upload_to=ThriftServer.models.get_image_path, blank=True)),
-                ('image2', models.ImageField(null=True, upload_to=ThriftServer.models.get_image_path, blank=True)),
-                ('image3', models.ImageField(null=True, upload_to=ThriftServer.models.get_image_path, blank=True)),
+                ('image', models.CharField(max_length=255)),
             ],
         ),
         migrations.CreateModel(
@@ -46,13 +43,13 @@ class Migration(migrations.Migration):
                 ('phone', models.CharField(max_length=255)),
                 ('email', models.CharField(max_length=255)),
                 ('password', models.CharField(max_length=255)),
-                ('image', models.ImageField(null=True, upload_to=ThriftServer.models.get_image_path, blank=True)),
+                ('image', models.CharField(max_length=255)),
             ],
         ),
         migrations.AddField(
             model_name='item',
             name='req_id',
-            field=models.ForeignKey(related_name='request', to='ThriftServer.User'),
+            field=models.ForeignKey(related_name='request', to='ThriftServer.User', null=True),
         ),
         migrations.AddField(
             model_name='item',
